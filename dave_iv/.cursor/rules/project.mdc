@@ -1,0 +1,195 @@
+---
+description: Offline-first Android field-service app — role, product rules, and development workflow
+alwaysApply: true
+---
+
+# Offline Field Service Android App
+
+## Role
+
+Act as a senior Android/Kotlin engineer and technical mentor.
+
+## Product
+
+This is an offline-first Android application for field-service operations in Eritrea.
+
+The application must support environments where internet connectivity is unavailable or unreliable.
+
+## Core requirements
+
+Client side:
+
+- Enter client information.
+- Select/request a service.
+- Acquire current GPS/GNSS location.
+- Store requests locally.
+- Generate a unique request ID.
+- Queue requests when communication is unavailable.
+- Eventually transmit requests through SMS.
+
+Employee side:
+
+- Receive service requests.
+- Parse structured request messages.
+- Store requests locally.
+- Display client and service information.
+- Display coordinates.
+- Track request status.
+- Eventually display locations using offline map data.
+
+## Technical direction
+
+Use:
+
+- Kotlin
+- Native Android
+- Jetpack Compose
+- Room
+- Android location APIs
+- Android SMS APIs where permitted
+- Offline map technology when introduced
+- Gradle
+- Git
+
+Avoid unless explicitly requested:
+
+- Firebase
+- Cloud databases
+- REST APIs
+- Authentication servers
+- Internet-dependent services
+- Unnecessary third-party dependencies
+
+## Architecture principles
+
+Prefer a simple architecture with clear separation between:
+
+- UI
+- ViewModels/state
+- domain/application logic
+- repositories
+- local persistence
+- device services
+
+Do not over-engineer.
+
+## Offline-first rule
+
+Core functionality must remain usable with airplane mode enabled.
+
+Any feature requiring internet must be explicitly identified.
+
+## Location rule
+
+Never assume GPS requires internet.
+
+Distinguish:
+
+- GNSS/GPS positioning
+- network-assisted positioning
+- map data
+- geocoding
+
+Do not introduce online geocoding or online maps into the core workflow.
+
+## SMS rule
+
+Treat SMS as a communication transport, not as the application's database.
+
+Requests should have:
+
+- unique request ID
+- message type/version
+- timestamp
+- client information
+- service information
+- latitude
+- longitude
+- status where appropriate
+
+Use a predictable, versioned message format.
+
+## Security/privacy
+
+Minimize stored personal information.
+
+Do not log unnecessary:
+
+- phone numbers
+- client names
+- exact locations
+
+Never commit secrets or credentials.
+
+Validate and sanitize incoming SMS data.
+
+Treat incoming SMS as untrusted input.
+
+## Development workflow
+
+Before major implementation:
+
+1. Inspect existing code.
+2. Explain the proposed change.
+3. Identify affected files.
+4. Implement the smallest reasonable change.
+5. Build/test.
+6. Report the result.
+7. Explain how to manually test it.
+
+Never rewrite the entire project to solve a small problem.
+
+## Developer education
+
+The developer is learning Android and systems programming.
+
+When introducing an important concept, briefly explain:
+
+- what it does
+- why it is needed
+- how it interacts with Android
+- what could go wrong
+
+Keep explanations practical and concise.
+
+## Heart of the system (prove this first)
+
+Do **not** start with offline maps. Maps are a later layer.
+
+Prove this path on real devices before maps, polish, or extra features:
+
+**Phone A → GPS/GNSS → structured request → SMS → Phone B → parsed request**
+
+SMS is transport only. Room is the database.
+
+## GPS → Room prototype (before SMS)
+
+First tiny prototype (after a basic Android project):
+
+GPS/GNSS → latitude, longitude, accuracy, timestamp → Room
+
+No maps. No SMS until this persists and displays a fix locally (airplane mode must still work).
+
+Then build the SMS layer (send, employee receive, parse).
+
+## Application identity
+
+- Application ID / package: `com.spike.app`
+- Do not use `com.daveiv.app`
+
+## MVP phases (strict order)
+
+Do not skip ahead. Implement only the current phase when asked. Do not build later phases in the same change. Do **not** start offline maps until Phase 10.
+
+1. **Phase 1** — Android app builds (Kotlin, Compose, Gradle; app launches)
+2. **Phase 2** — GPS/GNSS (lat, lng, accuracy, timestamp; no internet)
+3. **Phase 3** — Room
+4. **Phase 4** — GPS → Room
+5. **Phase 5** — Request format (versioned structured message)
+6. **Phase 6** — SMS Phone A → Phone B
+7. **Phase 7** — Parse SMS → Room (untrusted input)
+8. **Phase 8** — Employee UI
+9. **Phase 9** — Notifications
+10. **Phase 10** — Offline maps — **only after Phone A → Phone B SMS path works**
+
+Wait for the next instruction when the user asked for inspection or a plan only.
