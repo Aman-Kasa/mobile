@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="burdew_primary">#0D3B66</color>        <!-- deep blue -->
+    <color name="burdew_primary_dark">#082743</color>
+    <color name="burdew_secondary">#11998E</color>      <!-- teal -->
+    <color name="burdew_accent">#F4B942</color>         <!-- warm yellow -->
+    <color name="burdew_background">#F5F6F8</color>     <!-- light neutral -->
+    <color name="burdew_surface">#FFFFFF</color>
+    <color name="burdew_text">#1B1F24</color>
+    <color name="burdew_text_muted">#5F6B7A</color>
+    <color name="burdew_error">#B3261E</color>
+    <color name="burdew_ok">#1E7D3A</color>
+</resources>

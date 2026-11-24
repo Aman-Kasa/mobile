@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- GPS: only requested when capturing a customer or request location. No background tracking. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- SMS requests and acknowledgements. Optional: the app works fully without them (manual entry). -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
+    <!-- Receipt photos. The app uses the system camera app via FileProvider. -->
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    <uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+    <application
+        android:name=".BurdewApp"
+        android:allowBackup="false"
+        android:icon="@drawable/ic_burdew"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Burdew"
+        tools:targetApi="34">
+
+        <activity
+            android:name=".ui.SplashActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Burdew.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.OnboardingActivity" />
+        <activity android:name=".ui.LoginActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.customers.CustomerListActivity" />
+        <activity android:name=".ui.customers.CustomerEditActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.requests.RequestListActivity" />
+        <activity android:name=".ui.requests.RequestEditActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.requests.RequestDetailActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.providers.ProviderListActivity" />
+        <activity android:name=".ui.providers.ProviderEditActivity" android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.map.MapActivity" />
+        <activity android:name=".ui.sms.SmsActivity" />
+        <activity android:name=".ui.reports.ReportsActivity" />
+        <activity android:name=".ui.settings.SettingsActivity" />
+
+        <receiver
+            android:name=".sms.SmsReceiver"
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".sms.SmsStatusReceiver" android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.files"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+</manifest>
