@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Compose draws the UI. This Android theme only removes the native ActionBar. -->
-    <style name="Theme.Spike" parent="android:Theme.Material.Light.NoActionBar" />
-</resources>

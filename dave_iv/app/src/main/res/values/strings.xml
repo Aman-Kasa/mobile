@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">Spike</string>
-    <string name="phase_one_status">Phase 1 ready. GPS, Room, and SMS are not implemented yet.</string>
-</resources>
